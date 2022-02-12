@@ -1,4 +1,6 @@
 {
-  "mode": "timer",
-  "countDownTime": "2020-01-01T00:00:00"
+  "mode": "clock",
+  "burnProtect": true,
+  "inBedBefore": "7:15",
+  "inBedAfter": "19:15"
 }

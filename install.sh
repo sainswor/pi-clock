@@ -84,7 +84,7 @@ sudo raspi-config nonint do_boot_behaviour B4
 sudo raspi-config nonint do_overscan 1
 
 # Set timezone
-sudo raspi-config nonint do_change_timezone Asia/Singapore
+sudo raspi-config nonint do_change_timezone `cat /etc/timezone`
 
 # Disable setup wizard
 sudo rm /etc/xdg/autostart/piwiz.desktop

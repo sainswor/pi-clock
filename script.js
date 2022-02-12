@@ -1,11 +1,16 @@
 
 var mode = 'clock';
 var countDownTime = '2020-07-19T00:00:00';
-var burnProtect = 1;
+var burnProtect = true;
 
 var lastmode = '';
 var lastViewWidth;
 var lastHour;
+var inBedAfter = "19:45"; //7:45 PM -- this will be OVERWRITTEN by the value in 'config.json' if it is present
+var inBedBefore = "7:15"; //7:15 AM -- this will be OVERWRITTEN by the value in 'config.json' if it is present
+
+const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 function showTime() {
     var timer = 1000;
@@ -25,8 +30,7 @@ function showTime() {
         var h = now.getHours();
         var m = now.getMinutes();
         var s = now.getSeconds();
-
-        h = (h < 10) ? "0" + h : h;
+        var friendlyH = (h > 12) ? h-12 : h;
         m = (m < 10) ? "0" + m : m;
         s = (s < 10) ? "0" + s : s;
         if (burnProtect) {
@@ -71,10 +75,18 @@ function showTime() {
             lastViewWidth = 0;
         }
     }
+    const morning = inBedBefore.split(":");
+    const night = inBedAfter.split(":");
 
-    document.getElementById("hour").innerText = h;
-    document.getElementById("min").innerText = m;
-    document.getElementById("sec").innerText = s;
+    const timeString = friendlyH+":"+m+":"+s;
+    const dateString = dayNames[now.getDay()] + ", " + monthNames[now.getMonth()] + " " + now.getDate();
+    
+    if (((h < morning[0]) || ((h == morning[0]) && (m < morning[1]))) || (((h == night[0]) && (m >= night[1])) || (h > night[0]))) {
+        document.getElementById("time").innerText = dateString;
+    } else {
+        document.getElementById("time").innerText = timeString;
+    }
+    
 
     // Trying to do something clever here to ensure we update the time roughly within
     // 100ms of the turn of the second
@@ -121,6 +133,12 @@ $.getJSON("config.json", function(data) {
     }
     if ('burnProtect' in data) {
         burnProtect = data.burnProtect;
+    }
+    if ('inBedAfter' in data) {
+        inBedAfter = data.inBedAfter;
+    }
+    if ('inBedBefore' in data) {
+        inBedBefore = data.inBedBefore;
     }
 });
 

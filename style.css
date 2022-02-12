@@ -23,11 +23,9 @@ body {
     transform: translateY(-50%);
 }
 
-#hour, #min, #sec {
+#time {
     font-family: "Share Tech Mono";
     font-weight: bold;
-}
-#hour, #min {
     font-size: 120%;
 }
 

@@ -7,8 +7,19 @@ Pi-Clock is used to turn a Raspberry Pi with an attached display into a clock.
 Things to configure on Raspberry Pi itself.
 
  - Configure Wi-Fi / Ethernet networking.
+ - Configure the time zone.
  - Clone repository and install:
-   mkdir ~/work && cd ~/work && git clone git://github.com/lzs/pi-clock && cd pi-clock && ./install.sh
+   mkdir ~/work && cd ~/work && git clone https://github.com/sainswor/pi-clock && cd pi-clock && ./install.sh
+
+## How Is This Different?
+
+There are only a couple differences between this and https://github.com/lzs/pi-clock
+
+- 12-hour clock mode
+- `install.sh` now uses the system timezone from `/etc/timezone`
+- Added inBedBefore and inBedAfter
+
+My grandmother was getting confused and getting up / going to bed based on what her clock said. Unfortunately this could lead to getting up at 4AM thinking she'd overslept. The solution was to replace her clock with a monitor on a pi running this script with my fork's modifications. If it's before `inBedBefore` or after `inBedAfter`, the screen will show the date instead of the time, so you can tell at a glance if you should be up or can go back to sleep.
 
 ## References
 
