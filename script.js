@@ -8,6 +8,13 @@ var lastViewWidth;
 var lastHour;
 var inBedAfter = "19:45"; //7:45 PM -- this will be OVERWRITTEN by the value in 'config.json' if it is present
 var inBedBefore = "7:15"; //7:15 AM -- this will be OVERWRITTEN by the value in 'config.json' if it is present
+var phraseMode = true; //true for phrase mode, false for date - set this in 'config.json'
+const phrases = [
+    "TIME FOR SLEEP", "TIME FOR SLEEP", "TIME FOR SLEEP",
+    "GO BACK TO SLEEP", "GO BACK TO SLEEP", 
+    "TOO EARLY TO GET UP", "TOO EARLY TO GET UP",
+    "GOOD MORNING", "8 AM", "9 AM", "10 AM", "11 AM", "Noon", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM",
+    "GOOD NIGHT", "GOOD NIGHT", "SLEEP WELL",  "QUIET TIME", "QUIET TIME" ];
 
 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -29,10 +36,8 @@ function showTime() {
 
         var h = now.getHours();
         var m = now.getMinutes();
-        var s = now.getSeconds();
         var friendlyH = (h > 12) ? h-12 : h;
         m = (m < 10) ? "0" + m : m;
-        s = (s < 10) ? "0" + s : s;
         if (burnProtect) {
             var offset = Math.sin(m / 60 * 2 * Math.PI) * 6 + 47;
             $('#TextContainer').css('top', offset + '%');
@@ -78,11 +83,17 @@ function showTime() {
     const morning = inBedBefore.split(":");
     const night = inBedAfter.split(":");
 
-    const timeString = friendlyH+":"+m+":"+s;
+    const timeString = friendlyH+":"+m;
     const dateString = dayNames[now.getDay()] + ", " + monthNames[now.getMonth()] + " " + now.getDate();
-    
+    var msgString = "";
+    if (phraseMode) {
+        msgString = phrases[h];
+    } else {
+        msgString = dateString;
+    }
+
     if (((h < morning[0]) || ((h == morning[0]) && (m < morning[1]))) || (((h == night[0]) && (m >= night[1])) || (h > night[0]))) {
-        document.getElementById("time").innerText = dateString;
+        document.getElementById("time").innerText = msgString;
     } else {
         document.getElementById("time").innerText = timeString;
     }
@@ -139,6 +150,9 @@ $.getJSON("config.json", function(data) {
     }
     if ('inBedBefore' in data) {
         inBedBefore = data.inBedBefore;
+    }
+    if ('phrase' in data) {
+        phraseMode = data.phrase;
     }
 });
 

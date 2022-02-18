@@ -11,7 +11,7 @@
 body {
     margin: 0;
     background: black;
-    color: white;
+    color: rgb(85, 70, 4);
 }
 
 #TextContainer {
@@ -19,7 +19,7 @@ body {
     position: absolute;
     top: 50%;
     text-align: center;
-    color: white;
+    color: rgb(85, 70, 4);
     transform: translateY(-50%);
 }
 
