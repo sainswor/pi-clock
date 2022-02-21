@@ -2,5 +2,7 @@
   "mode": "clock",
   "burnProtect": true,
   "inBedBefore": "7:15",
-  "inBedAfter": "19:15"
+  "inBedAfter": "19:45",
+  "dayColor": "rgb(255, 185, 50)",
+  "nightColor": "rgb(77, 64, 0)"
 }

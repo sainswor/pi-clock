@@ -9,7 +9,7 @@ var lastHour;
 var inBedAfter = "19:45"; //7:45 PM -- this will be OVERWRITTEN by the value in 'config.json' if it is present
 var inBedBefore = "7:15"; //7:15 AM -- this will be OVERWRITTEN by the value in 'config.json' if it is present
 var nightColor = 'rgb(77, 64, 0)';
-var dayColor = 'rgb(225, 185, 50)';  
+var dayColor = 'rgb(255, 185, 50)';  
 var phraseMode = true; //true for phrase mode, false for date - set this in 'config.json'
 const phrases = [
     "TIME FOR SLEEP", "TIME FOR SLEEP", "TIME FOR SLEEP",
