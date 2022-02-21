@@ -22,7 +22,10 @@ There are only a couple differences between this and https://github.com/lzs/pi-c
 
 My grandmother was getting confused and getting up / going to bed based on what her clock said. Unfortunately this could lead to getting up at 4AM thinking she'd overslept. The solution was to replace her clock with a monitor on a pi running this script with my fork's modifications. If it's before `inBedBefore` or after `inBedAfter`, the screen will show the date or a phrase instead of the time, so you can tell at a glance if you should be up or can go back to sleep.
 
-Added: Phrase mode, where there's an array of 24 phrases. During times when the clock is not displayed, the index of the array corresponding to the hour is shown instead of the calendar.
+Added: 
+- Phrase mode, where there's an array of 24 phrases. During times when the clock is not displayed, the index of the array corresponding to the hour is shown instead of the calendar.
+- Bi-color mode. Both the JSON and the script itself have `dayColor` and `nightColor` which are rgb constructs of the form "rgb(0-255, 0-255, 0-255)" During phrase/date mode, the night color will be used.
+- Senior citizen feature - there's a `const` at line 5 of `script.js` that defines what to replace `0` with in the clock - the font used here has a slash through the zero and that was confusing my grandmother.
 
 ## References
 

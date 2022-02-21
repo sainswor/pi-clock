@@ -2,19 +2,24 @@
 var mode = 'clock';
 var countDownTime = '2020-07-19T00:00:00';
 var burnProtect = true;
-
+const replaceZeroWith = 'O';
 var lastmode = '';
 var lastViewWidth;
 var lastHour;
 var inBedAfter = "19:45"; //7:45 PM -- this will be OVERWRITTEN by the value in 'config.json' if it is present
 var inBedBefore = "7:15"; //7:15 AM -- this will be OVERWRITTEN by the value in 'config.json' if it is present
+var nightColor = 'rgb(77, 64, 0)';
+var dayColor = 'rgb(225, 185, 50)';  
 var phraseMode = true; //true for phrase mode, false for date - set this in 'config.json'
 const phrases = [
     "TIME FOR SLEEP", "TIME FOR SLEEP", "TIME FOR SLEEP",
     "GO BACK TO SLEEP", "GO BACK TO SLEEP", 
     "TOO EARLY TO GET UP", "TOO EARLY TO GET UP",
     "GOOD MORNING", "8 AM", "9 AM", "10 AM", "11 AM", "Noon", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM",
-    "GOOD NIGHT", "GOOD NIGHT", "SLEEP WELL",  "QUIET TIME", "QUIET TIME" ];
+    "GOOD NIGHT", "GOOD NIGHT", 
+    "SLEEP WELL",  
+    "QUIET TIME", "QUIET TIME" 
+];
 
 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -83,7 +88,7 @@ function showTime() {
     const morning = inBedBefore.split(":");
     const night = inBedAfter.split(":");
 
-    const timeString = friendlyH+":"+m;
+    const timeString = (friendlyH+":"+m).replace(/0/g, replaceZeroWith);
     const dateString = dayNames[now.getDay()] + ", " + monthNames[now.getMonth()] + " " + now.getDate();
     var msgString = "";
     if (phraseMode) {
@@ -91,13 +96,16 @@ function showTime() {
     } else {
         msgString = dateString;
     }
-
+    var displayString = "";
     if (((h < morning[0]) || ((h == morning[0]) && (m < morning[1]))) || (((h == night[0]) && (m >= night[1])) || (h > night[0]))) {
-        document.getElementById("time").innerText = msgString;
+        document.getElementById("time").style.color = nightColor;
+        displayString = msgString;
     } else {
-        document.getElementById("time").innerText = timeString;
+        document.getElementById("time").style.color = dayColor;
+        displayString = timeString;        
     }
-    
+   
+    document.getElementById("time").innerText = displayString;
 
     // Trying to do something clever here to ensure we update the time roughly within
     // 100ms of the turn of the second
@@ -112,27 +120,24 @@ function showTime() {
     setTimeout(showTime, timer);
 
     //setTimeout(resizeText, 50);
-    resizeText();
+    resizeText(displayString);
 }
 
-function resizeText() {
-    var viewWidth = $('#TextContainer').width();
+function resizeText(displayString) {
+    
+    var textSize = 500;
+    var maxTextHeight = $(window).height() - 64;
+    var maxTextWidth = $(window).width() - 64;
+    var textHeight;
+    var textWidth;
 
-    if (viewWidth == lastViewWidth) {
-        return;
-    }
-
-    lastViewWidth = viewWidth;
-
-    var textSize = $('#TextCell').css('font-size');
-    var textWidth = $('#TextCell').width();
-    textSize = textSize.substring(0, textSize.length - 2);
-
-    if (Math.abs(viewWidth - textWidth) / viewWidth > 0.1) {
-        var newTextSize = viewWidth / textWidth * textSize * 0.95;
-        $('#TextCell').css('font-size', newTextSize + 'px');
-        $('#TextCell').css('visibility', 'visible');
-    }
+    do {
+        $('#time').css('font-size', textSize);
+        textHeight = $('#time').height();
+        textWidth  = $('#time').width();
+        textSize = textSize - 1;
+    } while (textHeight > maxTextHeight || textWidth > maxTextWidth && fontSize > 3);
+    $('#TextCell').css('visibility', 'visible');
 }
 
 $.getJSON("config.json", function(data) {
@@ -153,6 +158,12 @@ $.getJSON("config.json", function(data) {
     }
     if ('phrase' in data) {
         phraseMode = data.phrase;
+    }
+    if ('dayColor' in data) {
+        dayColor = data.dayColor;
+    }
+    if ('nightColor' in data) {
+        nightColor = data.nightColor;
     }
 });
 

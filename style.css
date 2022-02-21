@@ -11,31 +11,25 @@
 body {
     margin: 0;
     background: black;
-    color: rgb(85, 70, 4);
+    /*color: rgb(85, 70, 4);*/
 }
 
 #TextContainer {
     width: 100%;
+    height: 80%;
     position: absolute;
     top: 50%;
     text-align: center;
-    color: rgb(85, 70, 4);
+    /*color: rgb(85, 70, 4);*/
     transform: translateY(-50%);
 }
 
 #time {
     font-family: "Share Tech Mono";
     font-weight: bold;
-    font-size: 120%;
-}
-
-#sign {
-    font-family: "Share Tech Mono";
-    font-size: 120%;
 }
 
 #TextCell {
-    font-size: 100%;
     display: inline;
     visibility: hidden;
 }
