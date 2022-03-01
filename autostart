@@ -4,12 +4,12 @@ xset s noblank
 xset s off
 xset -dpms
 
-nohup python3 -m http.server --directory /home/pi/pi-clock/ --bind 127.0.0.1 8080 &
+# nohup python3 -m http.server --directory /home/pi/pi-clock/ --bind 127.0.0.1 8080 &
 
 # Tricking Chrome to think it exited cleanly
-sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/'Local State'
-sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/"exit_type":"Normal"/' ~/.config/chromium/Default/Preferences
-c
+# sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/'Local State'
+# sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/"exit_type":"Normal"/' ~/.config/chromium/Default/Preferences
+# c
 
 unclutter -idle 5
 

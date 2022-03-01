@@ -11,6 +11,7 @@ var inBedBefore = "7:15"; //7:15 AM -- this will be OVERWRITTEN by the value in 
 var nightColor = 'rgb(77, 64, 0)';
 var dayColor = 'rgb(255, 185, 50)';  
 var phraseMode = true; //true for phrase mode, false for date - set this in 'config.json'
+var showDayWithClock = true;
 const phrases = [
     "TIME FOR SLEEP", "TIME FOR SLEEP", "TIME FOR SLEEP",
     "GO BACK TO SLEEP", "GO BACK TO SLEEP", 
@@ -96,6 +97,7 @@ function showTime() {
     } else {
         msgString = dateString;
     }
+    
     var displayString = "";
     if (((h < morning[0]) || ((h == morning[0]) && (m < morning[1]))) || (((h == night[0]) && (m >= night[1])) || (h > night[0]))) {
         document.getElementById("time").style.color = nightColor;
@@ -103,6 +105,7 @@ function showTime() {
     } else {
         document.getElementById("time").style.color = dayColor;
         displayString = timeString;        
+        if (showDayWithClock) displayString += `\n${dayNames[now.getDay()]}`;
     }
    
     document.getElementById("time").innerText = displayString;
